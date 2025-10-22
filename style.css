@@ -1,0 +1,92 @@
+    body { 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      margin-top: 100px; 
+      background: white;
+    }
+    h1 { color: #0070f3; }
+    .card:hover { transform: scale(1.02); transition: 0.3s; } {
+      width: 300px; 
+      margin: 0 auto; 
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+    }
+      button {
+      padding: 10px 20px;
+      background: #0070f3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover { background: #005ecb; }
+.card-container {
+  display: flex;
+  justify-content: center; /* centers them horizontally */
+  align-items: flex-start; /* aligns cards at the top */
+  flex-wrap: wrap; /* lets them move to the next line on small screens */
+  gap: 20px; /* adds space between cards */
+  margin-top: 30px;
+background: white;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0070f3;
+  color: white;
+  padding: 15px 40px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.badge.up {
+  background-color: #22c55e; /* green for up */
+}
+
+.badge.down {
+  background-color: #ef4444; /* red for down */
+}
+footer {
+  background: #111827;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  margin-top: 50px;
+}
+.section-title {
+  text-align: center;
+  color: #0070f3;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+.player-img {
+  width: 100px;      /* adjust size as needed */
+  height: 100px;     /* keep square shape */
+  object-fit: cover; /* crops and scales nicely */
+  border-radius: 50%; /* makes it a circle */
+  margin-bottom: 10px;
+}
