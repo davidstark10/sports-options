@@ -1,39 +1,64 @@
-// Select all buttons
-const buttons = document.querySelectorAll('button');
+document.addEventListener("DOMContentLoaded", () => {
+  setInterval(() => {
+    const oddsElements = document.querySelectorAll('.odds');
+    oddsElements.forEach(el => {
+      const oddsNum = el.querySelector('.odds-num');
+      if (!oddsNum) return;
 
-// Add click listener to each
-buttons.forEach(button => {
-  button.addEventListener('click', () => {
-    button.textContent = "Order Placed!";
-    button.style.backgroundColor = "#22c55e"; // green to indicate success
-    button.style.cursor = "default";
+      // Find number
+      const match = oddsNum.textContent.match(/\+(\d+)/);
+      if (!match) return;
+      const currentValue = parseInt(match[1]);
+      const change = Math.random() < 0.5 ? -50 : 50;
+      const newValue = Math.max(100, currentValue + change);
+      const improved = change < 0;
+
+      oddsNum.textContent = `+${newValue}`;
+      oddsNum.classList.remove('odds-up', 'odds-down');
+      void oddsNum.offsetWidth;
+      oddsNum.classList.add(improved ? 'odds-up' : 'odds-down');
+    });
+  }, 3000);
+});
+
+// script.js
+document.addEventListener("DOMContentLoaded", () => {
+  const panel = document.getElementById('option-panel');
+  const panelStrike = document.getElementById('panel-strike');
+  const panelPrice = document.getElementById('panel-price');
+  const closeBtn = document.getElementById('close-panel-btn');
+  const buyBtn = document.getElementById('buy-option-btn');
+
+  // Close button
+  closeBtn.addEventListener('click', () => {
+    panel.classList.add('hidden');
+  });
+
+  // Select all bid and ask cells
+document.querySelectorAll('.options-table tbody tr').forEach(row => {
+  // Call and Put bid/ask cells
+  const clickableCells = [
+    row.querySelector('td:nth-child(1)'), // Call Bid
+    row.querySelector('td:nth-child(2)'), // Call Ask
+    row.querySelector('td:nth-child(4)'), // Put Bid
+    row.querySelector('td:nth-child(5)')  // Put Ask
+  ];
+
+  clickableCells.forEach(cell => {
+    cell.addEventListener('click', () => {
+      const strike = row.querySelector('td:nth-child(3)').textContent;
+      const price = cell.textContent;
+
+      document.getElementById('panel-strike').textContent = `Strike Price: ${strike}`;
+      document.getElementById('panel-price').textContent = `Option Price: $${price}`;
+      document.getElementById('option-panel').classList.remove('hidden');
+    });
   });
 });
-const cards = document.querySelectorAll('.card');
 
-cards.forEach(card => {
-  const oddsElement = card.querySelector('.odds');
-  const badge = card.querySelector('.badge');
-  
-  let odds = parseInt(oddsElement.textContent.replace(/\D/g,'')); // extract number
-
-  setInterval(() => {
-    const change = Math.floor(Math.random() * 101) - 50; // random change -50 to +50
-    const newOdds = Math.max(100, odds + change);
-
-    // Update badge based on change
-    if (newOdds > odds) {
-      badge.textContent = "▲";
-      badge.classList.remove("down");
-      badge.classList.add("up");
-    } else if (newOdds < odds) {
-      badge.textContent = "▼";
-      badge.classList.remove("up");
-      badge.classList.add("down");
-    }
-
-    odds = newOdds;
-    oddsElement.textContent = `Current MVP Odds: +${odds}`;
-  }, 2000); // updates every 2 seconds
+  // Buy button logic
+  buyBtn.addEventListener('click', () => {
+    alert(`Bought option at ${panelPrice.textContent}!`);
+    panel.classList.add('hidden');
+  });
 });
-
