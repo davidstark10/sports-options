@@ -1,58 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Player Options</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h2 class="player-title">Patrick Mahomes MVP Options</h2>
 
-  <table class="options-table">
-    <thead>
-      <tr>
-        <th colspan="2">CALLS</th>
-        <th>Strike</th>
-        <th colspan="2">PUTS</th>
-      </tr>
-      <tr>
-        <th>Bid</th>
-        <th>Ask</th>
-        <th></th>
-        <th>Bid</th>
-        <th>Ask</th>
-      </tr>
-    </thead>
+<h2 class="player-title" id="player-title"></h2>
+<img id="player-image" class="player-img" />
 
-    <tbody>
-      <tr>
-        <td>1.20</td>
-        <td>1.30</td>
-        <td>+800</td>
-        <td>1.10</td>
-        <td>1.25</td>
-      </tr>
-      <tr>
-        <td>0.80</td>
-        <td>0.95</td>
-        <td>+1000</td>
-        <td>1.40</td>
-        <td>1.55</td>
-      </tr>
-    </tbody>
-  </table>
+<p id="market-direction"></p>
 
-  <!-- ===== Option Panel ===== -->
-  <div id="option-panel" class="option-panel hidden">
-    <h3 id="panel-strike">Strike Price: +800</h3>
-    <p id="panel-price">Option Price: $1.20</p>
-    <button id="buy-option-btn">Buy Option</button>
-    <button id="close-panel-btn">Close</button>
-  </div>
+<div class="sort-controls">
+  <button id="sort-asc">Strike ↑</button>
+  <button id="sort-desc">Strike ↓</button>
+</div>
 
-  <a href="index.html" class="back-button">← Back to Home</a>
+<table class="options-table">
+  <thead>
+    <tr>
+  <th colspan="2">CALLS</th>
+  <th>Strike</th>
+  <th colspan="2">PUTS</th>
+</tr>
+   <tr>
+  <th>Bid</th>
+  <th>Ask</th>
+  <th></th>
+  <th>Bid</th>
+  <th>Ask</th>
+</tr>
+  </thead>
 
-  <script src="script.js"></script>
+  <tbody id="options-body"></tbody>
+</table>
+
+<!-- Panel -->
+<div id="option-panel" class="option-panel hidden">
+  <h3 id="panel-strike"></h3>
+  <p id="panel-price"></p>
+  <button id="buy-option-btn">Buy Option</button>
+  <button id="close-panel-btn">Close</button>
+</div>
+
+<a href="index.html" class="back-button">← Back to Home</a>
+
+<script src="playerData.js"></script>
+<script src="player.js"></script>
 </body>
 </html>
