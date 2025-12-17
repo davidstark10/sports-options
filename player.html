@@ -12,7 +12,9 @@
 <h2 class="player-title" id="player-title"></h2>
 <img id="player-image" class="player-img" />
 
-<p id="market-direction"></p>
+<div class="current-odds">
+  Current MVP Odds: <span id="current-odds-value"></span>
+</div>
 
 <div class="sort-controls">
   <button id="sort-asc">Strike ↑</button>
@@ -41,13 +43,21 @@
 <!-- Panel -->
 <div id="option-panel" class="option-panel hidden">
   <h3 id="panel-strike"></h3>
-  <p id="panel-price"></p>
+  <p id="panel-entry"></p>
+  <p id="panel-current"></p>
+  <p id="panel-value"></p>
+  <p id="panel-max"></p>
+  <p id="panel-roi"></p>
+
   <button id="buy-option-btn">Buy Option</button>
   <button id="close-panel-btn">Close</button>
 </div>
 
 <a href="index.html" class="back-button">← Back to Home</a>
 
+<!-- In both index.html and player.html -->
+<script src="oddsData.js"></script>
+<script src="oddsUpdater.js"></script>
 <script src="playerData.js"></script>
 <script src="player.js"></script>
 </body>

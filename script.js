@@ -1,25 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
   setInterval(() => {
-    const oddsElements = document.querySelectorAll('.odds');
-    oddsElements.forEach(el => {
-      const oddsNum = el.querySelector('.odds-num');
-      if (!oddsNum) return;
-
-      // Find number
-      const match = oddsNum.textContent.match(/\+(\d+)/);
-      if (!match) return;
-      const currentValue = parseInt(match[1]);
+    Object.keys(currentOdds).forEach(player => {
+      // Random change
       const change = Math.random() < 0.5 ? -50 : 50;
-      const newValue = Math.max(100, currentValue + change);
-      const improved = change < 0;
+      const newValue = Math.max(100, currentOdds[player] + change);
+      currentOdds[player] = newValue;
 
-      oddsNum.textContent = `+${newValue}`;
-      oddsNum.classList.remove('odds-up', 'odds-down');
-      void oddsNum.offsetWidth;
-      oddsNum.classList.add(improved ? 'odds-up' : 'odds-down');
+      // Update DOM on main page
+      const el = document.querySelector(`.odds[data-player="${player}"] .odds-num`);
+      if (el) {
+        el.textContent = `+${newValue}`;
+        el.classList.remove('odds-up', 'odds-down');
+        void el.offsetWidth;
+        el.classList.add(change < 0 ? 'odds-up' : 'odds-down');
+      }
     });
   }, 3000);
 });
+
 
 // script.js
 document.addEventListener("DOMContentLoaded", () => {
