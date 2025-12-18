@@ -5,6 +5,12 @@ const urlToNameMap = {
   "lamar-jackson": "Lamar Jackson"
 };
 
+function saveToPortfolio(option) {
+  const portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
+  portfolio.push(option);
+  localStorage.setItem("portfolio", JSON.stringify(portfolio));
+}
+
 // ================= URL & PLAYER DATA =================
 const params = new URLSearchParams(window.location.search);
 const urlKey = params.get("name");           // e.g., "patrick-mahomes"
@@ -57,11 +63,37 @@ function renderTable(options) {
   options.forEach(opt => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td class="option-cell" data-price="${opt.callBid}" data-strike="${opt.strike}" data-type="CALL">${opt.callBid}</td>
-      <td class="option-cell" data-price="${opt.callAsk}" data-strike="${opt.strike}" data-type="CALL">${opt.callAsk}</td>
+      <td class="option-cell"
+    data-price="${opt.callBid}"
+    data-strike="${opt.strike}"
+    data-type="CALL"
+    data-side="SHORT">
+  ${opt.callBid}
+</td>
+
+<td class="option-cell"
+    data-price="${opt.callAsk}"
+    data-strike="${opt.strike}"
+    data-type="CALL"
+    data-side="LONG">
+  ${opt.callAsk}
+</td>
       <td>${opt.strike}</td>
-      <td class="option-cell" data-price="${opt.putBid}" data-strike="${opt.strike}" data-type="PUT">${opt.putBid}</td>
-      <td class="option-cell" data-price="${opt.putAsk}" data-strike="${opt.strike}" data-type="PUT">${opt.putAsk}</td>
+     <td class="option-cell"
+    data-price="${opt.putBid}"
+    data-strike="${opt.strike}"
+    data-type="PUT"
+    data-side="SHORT">
+  ${opt.putBid}
+</td>
+
+<td class="option-cell"
+    data-price="${opt.putAsk}"
+    data-strike="${opt.strike}"
+    data-type="PUT"
+    data-side="LONG">
+  ${opt.putAsk}
+</td>
     `;
     tbody.appendChild(tr);
   });
@@ -76,7 +108,7 @@ function attachOptionClickHandlers() {
       const entryPrice = parseFloat(cell.dataset.price);
       const strikeOdds = cell.dataset.strike;
       const type = cell.dataset.type;
-
+      const side = cell.dataset.side; // LONG or SHORT
       // LIVE dynamic odds
       const currentOddsValue = currentOdds[playerKey];
 
@@ -86,13 +118,15 @@ function attachOptionClickHandlers() {
       const roi = ((value - entryPrice) / entryPrice) * 100;
 
       // Populate panel
-      panelStrike.textContent = `${type} @ ${strikeOdds}`;
+      document.getElementById("panel-strike").textContent =
+  `${side === "LONG" ? "Buy" : "Sell"} ${type} @ ${strikeOdds}`;
       document.getElementById("panel-entry").textContent = `Entry Price: $${entryPrice.toFixed(2)}`;
       document.getElementById("panel-current").textContent = `Current Odds: +${currentOddsValue}`;
       document.getElementById("panel-value").textContent = `Current Value: $${value.toFixed(2)}`;
       document.getElementById("panel-max").textContent = `Max Payout: $${max.toFixed(2)}`;
       document.getElementById("panel-roi").textContent = `ROI: ${roi.toFixed(1)}%`;
 
+      buyBtn.textContent = side === "LONG" ? "Buy Option" : "Sell Option";
       panel.classList.remove("hidden");
     });
   });
@@ -101,7 +135,24 @@ function attachOptionClickHandlers() {
 // Close & Buy buttons
 closeBtn.addEventListener("click", () => panel.classList.add("hidden"));
 buyBtn.addEventListener("click", () => {
-  alert("Order placed!");
+  const position = {
+    id: crypto.randomUUID(),
+    player: playerKey,
+    type: panelStrike.textContent.includes("CALL") ? "CALL" : "PUT",
+    strike: panelStrike.textContent.split("@")[1].trim(),
+    side: buyBtn.textContent.includes("Buy") ? "LONG" : "SHORT",
+    entryPrice: parseFloat(
+      document.getElementById("panel-entry").textContent.replace(/[^\d.]/g, "")
+    ),
+    timestamp: Date.now()
+  };
+
+  // Load existing portfolio
+  const portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
+  portfolio.push(position);
+  localStorage.setItem("portfolio", JSON.stringify(portfolio));
+
+  alert(`${position.side === "LONG" ? "Bought" : "Sold"} option successfully`);
   panel.classList.add("hidden");
 });
 
